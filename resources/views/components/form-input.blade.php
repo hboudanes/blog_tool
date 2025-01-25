@@ -1,25 +1,52 @@
-
+@props(['inputType' => 'default','for'=>'','labelName'=>''])
 
 <div class="form-group">
-    <label for="{{ $name }}">{{ $label }}</label>
+   
+    @switch($inputType)
+        @case($inputType === 'select')
+      
+        <div>
+            @if ($labelName !== '')
+            <label for="{{ $for }}">{{$labelName}}</label>
+            @endif
+           
+            <select {{ $attributes }} >
+                {{$slot}}
+              
+            </select>
+        </div>
+        @break
 
-    @if ($type === App\Enums\InputType::DEFAULT)
- 
-        <input type="text" name="{{ $name }}" id="{{ $name }}" class="form-control"
-            value="{{ old($name, $value) }}"  {{ $required ? 'required' : '' }} >
-    {{-- @elseif ($type === App\Enums\InputType::TEXTAREA)
-        <textarea name="{{ $name }}" id="{{ $name }}" class="form-control" placeholder="{{ $placeholder }}"
-            {{ $required ? 'required' : '' }}>{{ old($name, $value) }}</textarea>
-    @elseif ($type === App\Enums\InputType::SELECT)
-        <select name="{{ $name }}" id="{{ $name }}" class="form-control">
+        @case($inputType === 'textarea')
         
-                <option value="{{ $key }}" {{ $key == $value ? 'selected' : '' }}>{{ $option }}
-                </option>
+        @if ($labelName !== '')
+        <label for="{{ $for }}">{{$labelName}}</label>
+        @endif
+            <textarea class="form-control" {{ $attributes }}>  {{$slot}}</textarea>
+        @break
+     
             
-        </select> --}}
-    @endif
+        @break
+        @default
+        @if ($labelName !== '')
+        <label for="{{ $for }}">{{$labelName}}</label>
+        @endif
+            <input class="form-control" {{ $attributes }}  value="{{$slot}}"/> 
+    @endswitch
 
-    @error($name)
+
+
+
+    @error($attributes['name'])
         <span class="text-danger">{{ $message }}</span>
     @enderror
 </div>
+{{-- @elseif ($type === App\Enums\InputType::TEXTAREA)
+      
+ @elseif ($type === App\Enums\InputType::SELECT)
+        <select name="{{ $name }}" id="{{ $name }}" class="form-control">
+
+            <option value="{{ $key }}" {{ $key == $value ? 'selected' : '' }}>{{ $option }}
+            </option>
+
+        </select>   --}}

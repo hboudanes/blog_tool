@@ -1,46 +1,33 @@
-@extends('layouts.main')
-{{-- @php
-    use App\Enums\InputType;
-@endphp --}}
-@section('title','create new post')
-@section('childContent')
+@extends('layouts.app')
+
+@php
+    use App\Enum\InputType;
+@endphp
+@section('title', 'create new post')
+@section('content')
+
     <h1>Create New Post</h1>
 
-    <form method="POST" action="{{ route('post.store') }}">
-        @csrf
+    
+       <x-form method="POST" action="{{route('post.store')}}">
+
+        <!-- Title Input -->
+        <x-form-input for="title" type="text" id="title" name="title" labelName="Title" required>
+
+        </x-form-input>
+        <!-- Slug Input -->
+        <x-form-input for="slug" type="text" id="slug" labelName="Slug:" name="slug" required>
+
+        </x-form-input>
+        <!-- Content Textarea -->
+        <x-form-input inputType="textarea" for="content" id="content" name="content" labelName="Content:">
+            Hello world!
+        </x-form-input>
+        <x-form-input inputType="select" for="content" id="content" name="content" labelName="tags" multiple>
+            @foreach ($tags as $v)
+                <option value="{{ $v->id }}">{{ $v->name }}</option>
+            @endforeach
+        </x-form-input>
+    </x-form>
         
-            <x-form-input for="title",type="text" id="title" name="title" required>
-                <!-- Title Input -->
-                <div>
-                    <label for="title">Title:</label>
-                    <input type="text" id="title" name="title" required>
-                </div>
-
-                <!-- Slug Input -->
-                <div>
-                    <label for="slug">Slug:</label>
-                    <input type="text" id="slug" name="slug" required>
-                </div>
-
-                <!-- Content Textarea -->
-                <div>
-                    <label for="content">Content:</label>
-                    <textarea id="content" name="content">Hello, World!</textarea>
-                </div>
-
-                <!-- Tags Dropdown -->
-                <div>
-                    <label for="tags">Tags:</label>
-                    <select id="tags" name="tags[]" multiple>
-                        @foreach ($tags as $tag)
-                            <option value="{{ $tag->id }}">{{ $tag->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <!-- Submit Button -->
-                <div>
-                    <button type="submit">Create Post</button>
-                </div>
-    </form>
 @endsection
