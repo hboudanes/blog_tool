@@ -15,6 +15,7 @@
         <x-form-input for="title" type="text" id="title" name="title" labelName="Title" required>
 
         </x-form-input>
+
         <!-- Slug Input -->
         <x-form-input for="slug" type="text" id="slug" labelName="Slug:" name="slug" required>
 

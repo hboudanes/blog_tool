@@ -2,18 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateTagRequest;
 use App\Models\Tag;
+use App\Models\User;
+use App\Repository\Tag\TagRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TagController extends Controller
 {
+    protected $tagRepository;
+    public function __construct()
+    {
+        $user = User::find(Auth::id());
+
+        $this->tagRepository = new TagRepository($user);
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $tags = Tag::getTags();
-       
+        $tags = $this->tagRepository->get();
+
         return view('tag.index', compact('tags'));
     }
 
@@ -22,20 +33,20 @@ class TagController extends Controller
      */
     public function create()
     {
-         // Fetch all tags
-        $tags = Tag::getTags();
-        return view('tag.index',compact('tags'));
+        // Fetch all tags
+        $tags =  $this->tagRepository->get();
+        return view('tag.index', compact('tags'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CreateTagRequest $request)
     {
-        
+
 
         // Create the tag
-        Tag::createTag($request);
+        $this->tagRepository->store($request);
 
         // Redirect with a success message
         return redirect()->route('tag.index')->with('success', 'Tag created successfully!');
@@ -52,17 +63,19 @@ class TagController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Tag $tage)
+    public function edit(Tag $tag)
     {
-        return view('tag.index',compact('tage'));
+        $tags =  $this->tagRepository->get();
+        return view('tag.index', compact('tag','tags'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Tag $tag)
+    public function update(CreateTagRequest $request, Tag $tag)
     {
-        //
+        $this->tagRepository->update($request, $tag);
+        return redirect()->route('tag.index')->with('success', 'Tag update successfully!');
     }
 
     /**
@@ -71,6 +84,6 @@ class TagController extends Controller
     public function destroy(Tag $tag)
     {
         $tag->delete();
-        return redirect()->route('tag.index')->with('status', 'tag-deleted');
+        return redirect()->route('tag.index')->with('success', 'tag-deleted');
     }
 }

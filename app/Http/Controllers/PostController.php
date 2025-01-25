@@ -6,7 +6,7 @@ use App\Http\Requests\CreatePostRequest;
 use Illuminate\Http\Request;
 
 use App\Models\Post;
-use App\Models\Tag;
+
 use App\Models\User;
 use App\Repository\Post\PostRepository;
 use App\Repository\Tag\TagRepository;
@@ -41,7 +41,7 @@ class PostController extends Controller
     {
 
         // Fetch all tags
-        $tags = $this->tagRepository->getTags();
+        $tags = $this->tagRepository->get();
 
         // Pass the tags to the view
         return view('post.create', compact('tags'));
@@ -65,7 +65,7 @@ class PostController extends Controller
         // Load the post with its tags
         $post->load('tags');
         // Pass the post to the view
-        return view('post.show', compact('post'));
+        return view('post.show', compact('post',));
     }
 
     /**
@@ -74,7 +74,7 @@ class PostController extends Controller
     public function edit(Post $post)
     {
 
-        $tags = $this->tagRepository->getTags();
+        $tags = $this->tagRepository->get();
         // Load the post with its tags
         $post->load('tags');
         // Pass the post to the view

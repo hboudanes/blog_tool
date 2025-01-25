@@ -7,7 +7,7 @@
   <!-- Page Heading -->
   <h1 class="h3 mb-2 text-gray-800">Posts</h1>
   <p class="mb-4">This table displays all the posts created by users.</p>
-   
+
   <!-- DataTales Example -->
   <div class="card shadow mb-4">
       <div class="card-header py-3">
@@ -56,10 +56,10 @@
                               </td>
                               <td>
                                   <!-- Edit Button -->
-                                  <a href="{{ route('post.edit', $post->id) }}" class="btn btn-sm btn-primary">
+                                  <a href="{{ route('post.edit',[$post->id,"slug"=>$post->slug] ) }}" class="btn btn-sm btn-primary">
                                       <i class="fas fa-edit"></i> Edit
                                   </a>
-                                  <a href="{{ route('post.show', $post->id) }}" class="btn btn-sm btn-primary">
+                                  <a href="{{ route('post.show',[$post->id,"slug"=>$post->slug] ) }}" class="btn btn-sm btn-primary">
                                     <i class="fas fa-edit"></i> show
                                 </a>
                                   <!-- Delete Button -->
@@ -68,7 +68,7 @@
                                         <i class="fas fa-trash"></i> Delete
                                     </button>
                                   </x-form>
-                                 
+
                               </td>
                           </tr>
                       @endforeach

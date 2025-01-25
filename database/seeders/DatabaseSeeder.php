@@ -19,15 +19,11 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'id' =>  1,
             'name' => 'hicham',
-            'email' => 'hicham@gmail.com',
-            'password' => Hash::make('12345678'),
+            'email' => 'test@gmail.com',
+            'password' => Hash::make('123'),
 
         ]);
-       
-        $this->call([
-            PostSeeder::class,
-            TagSeeder::class,
-            PostTagSeeder::class,
-        ]);
+
+
     }
 }
