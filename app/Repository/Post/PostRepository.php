@@ -3,6 +3,7 @@
 namespace App\Repository\Post;
 
 use App\Http\Requests\CreatePostRequest;
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,13 +17,13 @@ class PostRepository
         $this->user = $user ?? User::find(Auth::id());
     }
 
-    public function getPosts()
+    public function get()
     {
 
         return $this->user->posts()->get();
     }
 
-    public function storePost(CreatePostRequest $request)
+    public function store(CreatePostRequest $request)
     {
         $validatedData = $request->validated();
 
@@ -34,6 +35,23 @@ class PostRepository
         if ($request->has('tags')) {
             $post->tags()->attach($request->input('tags'));
         }
+
+        return $post;
+    }
+    public function update(CreatePostRequest $request, Post $post)
+    {
+        $validatedData = $request->validated();
+
+
+        // Create the post
+        $post->update($validatedData);
+
+        // Attach tags if provided aproche 1
+        if ($request->has('tags')) {
+            $post->tags()->sync($request->input('tags'));
+        }
+
+
 
         return $post;
     }

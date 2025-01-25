@@ -8,8 +8,8 @@
 
     <h1>Create New Post</h1>
 
-    
-       <x-form method="POST" action="{{route('post.store')}}">
+
+    <x-form method="POST" action="{{ route('post.store') }}">
 
         <!-- Title Input -->
         <x-form-input for="title" type="text" id="title" name="title" labelName="Title" required>
@@ -29,5 +29,5 @@
             @endforeach
         </x-form-input>
     </x-form>
-        
+
 @endsection

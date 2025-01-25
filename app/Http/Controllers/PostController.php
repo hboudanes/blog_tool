@@ -29,8 +29,8 @@ class PostController extends Controller
     public function index()
     {
         // PostRepository::getAllPosts();
-        $posts = $this->postRepository->getPosts();
-     
+        $posts = $this->postRepository->get();
+
         return view('post.index', ['posts' => $posts]);
     }
 
@@ -41,7 +41,7 @@ class PostController extends Controller
     {
 
         // Fetch all tags
-        $tags = Tag::getTags();
+        $tags = $this->tagRepository->getTags();
 
         // Pass the tags to the view
         return view('post.create', compact('tags'));
@@ -52,7 +52,7 @@ class PostController extends Controller
      */
     public function store(CreatePostRequest $request)
     {
-        $this->postRepository->storePost($request);
+        $this->postRepository->store($request);
         return redirect()->route('post.index')->with('success', 'Post created successfully!');
     }
 
@@ -61,7 +61,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        
+
         // Load the post with its tags
         $post->load('tags');
         // Pass the post to the view
@@ -73,20 +73,21 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        
+
         $tags = $this->tagRepository->getTags();
         // Load the post with its tags
         $post->load('tags');
         // Pass the post to the view
-        return view('post.edit', compact('post','tags'));
+        return view('post.edit', compact('post', 'tags'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $post)
+    public function update(CreatePostRequest $request, Post $post)
     {
-        //
+        $this->postRepository->update($request, $post);
+        return redirect()->route('post.index')->with('success', 'Post update successfully!');
     }
 
     /**

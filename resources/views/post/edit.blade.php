@@ -4,41 +4,26 @@
 @section('content')
     <h1>Edit Post</h1>
 
-    
-    <form method="POST" action="{{ route('post.update', $post) }}">
-        @csrf
-        @method('put')
+    <x-form method="PUT" action="{{ route('post.update', $post) }}" submit="Create Post">
+
         <!-- Title Input -->
-        <div>
-            <label for="title">Title:</label>
-            <input type="text" id="title" name="title" value="{{ $post->title }}" required>
-        </div>
-
+        <x-form-input for="title" type="text" id="title" name="title" labelName="Title" required>
+            {{ $post->title }}
+        </x-form-input>
         <!-- Slug Input -->
-        <div>
-            <label for="slug">Slug:</label>
-            <input type="text" id="slug" name="slug" value="{{ $post->title }}" required>
-        </div>
-
+        <x-form-input for="slug" type="text" id="slug" labelName="Slug:" name="slug" required>
+            {{ $post->title }}
+        </x-form-input>
         <!-- Content Textarea -->
-        <div>
-            <label for="content">Content:</label>
-            <textarea id="content" name="content">value="{{ $post->content }}"</textarea>
-        </div>
-
+        <x-form-input inputType="textarea" for="content" id="content" name="content" labelName="Content:">
+            {{ $post->content }}
+        </x-form-input>
         <!-- Tags Dropdown -->
-        <div>
-            <label for="tags">Tags:</label>
-            <select id="tags" name="tags[]" multiple>
-                @foreach ($tags as $tag)
-                    <option value="{{ $tag->id }}" @selected($post->tags->contains($tag->id))>{{ $tag->name }}</option>
-                @endforeach
-            </select>
-        </div>
-
-        <!-- Submit Button -->
-        <div>
-            <button type="submit">Create Post</button>
-        </div>
-    </form>
+        <x-form-input inputType="select" for="tags" id="tags" name="tags[]" labelName="Tags:" multiple>
+            @foreach ($tags as $v)
+                <option value="{{ $v->id }}" @selected($post->tags->contains($v->id))>{{ $v->name }}</option>
+            @endforeach
+        </x-form-input>
+    </x-form>
+  
 @endsection

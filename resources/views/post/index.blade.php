@@ -63,13 +63,12 @@
                                     <i class="fas fa-edit"></i> show
                                 </a>
                                   <!-- Delete Button -->
-                                  <form action="{{ route('post.destroy', $post->id) }}" method="POST" style="display:inline;">
-                                      @csrf
-                                      @method('DELETE')
-                                      <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this post?')">
-                                          <i class="fas fa-trash"></i> Delete
-                                      </button>
-                                  </form>
+                                  <x-form action="{{ route('post.destroy', $post->id) }}" method="DELETE" style="display:inline;">
+                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this post?')">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
+                                  </x-form>
+                                 
                               </td>
                           </tr>
                       @endforeach
